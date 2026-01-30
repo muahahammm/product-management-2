@@ -21,6 +21,7 @@ module.exports.index = async (req, res) => {
         find.title = search.regex;
     }
 
+    // Pagination
     const countProducts = await Product.countDocuments(find);
     let objectPagination = paginationHelpers(
         {
@@ -30,9 +31,21 @@ module.exports.index = async (req, res) => {
         req.query,
         countProducts
     );
+    // End pagination
+
+    // Sort
+    let sort = {};
+
+    if(req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue;
+    }
+    else {
+        sort.posotion = "desc";
+    }
+    // End sort
 
     const products = await Product.find(find)
-        .sort({position: "desc"})
+        .sort(sort)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
 
@@ -122,11 +135,7 @@ module.exports.createPost = async (req, res) => {
     else {
         req.body.position = parseInt(req.body.position);
     }
-
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
-
+    
     const product = new Product(req.body);
     await product.save();
 

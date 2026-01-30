@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require("path");
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
@@ -17,9 +18,7 @@ database.connect();
 const app = express();
 const port = process.env.PORT;
 
-
 app.use(methodOverride("_method"));
-
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set("views", `${__dirname}/views`);
@@ -30,6 +29,10 @@ app.use(cookieParser("jhfuhubbeqb"));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 // End express flash
+
+// Tiny mce
+app.use('/tinymce', express.static(path.join(__dirname, "node_modules", "tinymce")));
+// End tiny mce
 
 // App local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
