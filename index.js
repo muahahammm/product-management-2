@@ -39,6 +39,10 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 app.use(express.static(`${__dirname}/public`));
 
+app.get("/", (req, res) => {
+  res.send("Server is running 🚀");
+});
+
 //console.log("MONGO_URL = ", process.env.MONGO_URL);
 //routes
 routeAdmin(app);
