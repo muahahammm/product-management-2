@@ -7,19 +7,25 @@ const paginationHelpers = require("../../helpers/pagination");
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
+    // Filter status
     const filterStatus = filterStatusHelpers(req.query);
+    // End filter status
 
     let find = {
         deleted: false
     }
+
     if (req.query.status) {
         find.status = req.query.status;
     }
 
+    // Search key word
     const search = searchHelpers(req.query);
+
     if (search.regex) {
         find.title = search.regex;
     }
+    // End search key word
 
     // Pagination
     const countProducts = await Product.countDocuments(find);
@@ -40,7 +46,7 @@ module.exports.index = async (req, res) => {
         sort[req.query.sortKey] = req.query.sortValue;
     }
     else {
-        sort.posotion = "desc";
+        sort.position = "desc";
     }
     // End sort
 
