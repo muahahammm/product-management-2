@@ -4,6 +4,7 @@ const systemConfig = require("../../config/system");
 const filterStatusHelpers = require("../../helpers/filterStatus");
 const searchHelpers = require("../../helpers/search");
 const paginationHelpers = require("../../helpers/pagination");
+const createTreeHelpers = require("../../helpers/createTree");
 
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
@@ -40,10 +41,11 @@ module.exports.index = async (req, res) => {
     // End pagination
 
     const records = await ProductCategory.find(find);
+    const newRecord = createTreeHelpers.Tree(records);
 
     res.render("admin/pages/products-category/index", {
         pageTitle: "Danh mục sản phẩm",
-        records: records,
+        records: newRecord,
         keyword: search.keyword,
         filterStatus: filterStatus,
     });
@@ -104,8 +106,16 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/products-category/create
 module.exports.create = async (req, res) => {
+    let find = {
+        deleted: false
+    };
+
+    const productCategory = await ProductCategory.find(find);
+    const newProDuctCategory = createTreeHelpers.Tree(productCategory);
+
     res.render("admin/pages/products-category/create", {
-        pageTitle: "Tạo danh mục sản phẩm"
+        pageTitle: "Tạo danh mục sản phẩm",
+        product: newProDuctCategory 
     });
 };
 
