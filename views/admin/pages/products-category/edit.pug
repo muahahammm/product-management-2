@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/select-tree.pug
 
 block main 
     +alert-success(5000)
@@ -16,8 +17,15 @@ block main
             input(type="text" class="form-control" id="title" name="title" required value=product.title) 
 
         div(class="form-group")
+            label(for="parent_id") Danh mục cha 
+            select(name="parent_id" id="parent_id" class="form-control")
+                option(value="") --Chọn danh mục cha--
+                if(records)
+                    +select-tree(records, 1, product.parent_id)
+
+        div(class="form-group")
             label(for="desc") Mô tả 
-            textarea(class="form-control" id="desc" name="description" rows="4" value=product.description) #{product.description}
+            textarea(class="form-control textarea-tinymce" id="desc" name="description" rows="4" value=product.description) #{product.description}
 
         div(class="form-group" upload-image)
             label(for="thumbnail") Ảnh 
