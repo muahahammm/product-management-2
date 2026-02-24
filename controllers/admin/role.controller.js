@@ -30,3 +30,64 @@ module.exports.createPost = async (req, res) => {
     await record.save();
     res.redirect(`${systemConfig.prefixAdmin}/roles`);
 };
+
+
+// [GET] /admin/roles/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+        let find = {
+            _id: id,
+            deleted: false
+        }
+
+        const data = await Role.findOne(find);
+
+        res.render("admin/pages/roles/edit", {
+            pageTitle: "Chỉnh sửa nhóm quyền",
+            data: data
+        });
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    }
+};
+
+
+// [PATCH] /admin/roles/edit/:id
+module.exports.editPatch = async (req, res) => {
+    const id = req.params.id;
+    try {
+        await Role.updateOne({ _id: id }, req.body);
+        req.flash("success", "Cập nhật thành công!");
+    } catch (error) {
+        req.flash("errol", "Cập nhật thất bại!");
+    }
+    res.redirect(req.headers.referer || "/admin/roles");
+};
+
+
+// [GET] /admin/roles/permisions
+module.exports.permissions = async (req, res) => {
+    let find = {
+        deleted: false
+    };
+
+    const records = await Role.find(find);
+
+    res.render("admin/pages/roles/permissions", {
+        pageTitle: "Phân quyền",
+        records: records
+    });
+};
+
+
+// [PATCH] /admin/roles/permisions
+module.exports.permissionsPatch = async (req, res) => {
+    const permissions = JSON.parse(req.body.permissions);
+    for (const item of permissions) {
+        await Role.updateOne({ _id: item.id }, { permissions: item.permissions });
+    }
+    req.flash("success", "Cập nhật thành công!");
+    res.redirect(req.headers.referer || "/admin/roles/permissions");
+
+};

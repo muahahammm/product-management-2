@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const roleSchema = new mongoose.Schema({
     title: String,
     description: String,
-    permision: { type: Array, default: [] },
+    permissions: { type: Array, default: [] },
     deleted: { type: Boolean, default: false },
     deleteAt: Date
 }, { timestamps: true });
