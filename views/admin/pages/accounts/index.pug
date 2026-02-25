@@ -1,0 +1,58 @@
+extends ../../layouts/default.pug
+
+block main
+    h1(class="mb-4") Danh sách tài khoản
+
+    .card.mb-3 
+        .card-header Danh sách 
+        .card-body
+            .row 
+                .col-8
+                .col-4.text-right 
+                    a(href=`${prefixAdmin}/accounts/create` class="btn btn-outline-success") + Thêm mới
+
+            table(class="table table-hover table-sm" checkbox-multi) 
+                thead 
+                    tr  
+                        th 
+                            input(type="checkbox" name="checkall")
+                        th STT 
+                        th Hình ảnh 
+                        th Họ tên 
+                        th Quyền 
+                        th Email
+                        th Trạng thái 
+                        th Hành động 
+            
+                tbody
+                    each item, index in records, roles
+                        tr 
+                            td 
+                                input(type="checkbox" name="checkall")
+                            td #{index + 1}
+                            td 
+                                img(src=item.avatar alt=item.fullname width="100px" height="50px")
+                            td #{item.fullname} 
+                            td #{item.role.title}
+                            td #{item.email}
+                            td
+                                if(item.status === "active")
+                                    a(
+                                        href="javascript:;" 
+                                        data-status=item.status
+                                        data-id=item.id
+                                        button-change-status 
+                                        class="isactive"
+                                    ) Hoạt động
+                                else
+                                    a(
+                                        href="javascript:;" 
+                                        data-status=item.status
+                                        data-id=item.id 
+                                        button-change-status 
+                                        class="isinactive"
+                                    ) Dừng hoạt động
+                            td 
+                                a(href=`${prefixAdmin}/products/detail/${item.id}` class="btn btn-secondary btn-sm") Chi tiết  
+                                a(href=`${prefixAdmin}/products/edit/${item.id}` class="btn btn-warning btn-sm") Sửa 
+                                button(class="btn btn-danger btn-sm ml-1" button-delete data-id=item.id) Xóa
