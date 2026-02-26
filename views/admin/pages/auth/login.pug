@@ -1,0 +1,19 @@
+extends ../../layouts/auth.pug
+include ../../mixins/show-alert.pug
+
+block main
+    +alert-errol(5000)
+
+    .container
+        .row.justify-content-center
+            .col-md-6.col-lg-5
+                .auth-card
+                    h1.text-center Đăng nhập
+                    form(action=`${prefixAdmin}/auth/login` method="POST")
+                        .mb-3
+                            label.form-label(for="email") Email
+                            input.form-control(type="email" id="email" name="email" required)
+                        .mb-3
+                            label.form-label(for="password") Mật khẩu
+                            input.form-control(type="password" id="password" name="password" required)
+                        button.btn.btn-login.w-100(type="submit") Đăng nhập

@@ -1,0 +1,56 @@
+/* Background toàn trang */
+body {
+    background: linear-gradient(135deg, #f5f6f8, #e9ecef);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Card login */
+.auth-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    padding: 40px 30px;
+    background: #ffffff;
+}
+
+/* Title */
+.auth-card h1 {
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* Input */
+.auth-card .form-control {
+    height: 48px;
+    border-radius: 10px;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+}
+
+.auth-card .form-control:focus {
+    border-color: #4e73df;
+    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Label */
+.auth-card label {
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+/* Button */
+.auth-card .btn-login {
+    height: 48px;
+    border-radius: 10px;
+    font-weight: 500;
+    background: linear-gradient(135deg, #4e73df, #224abe);
+    border: none;
+    transition: 0.3s;
+}
+
+.auth-card .btn-login:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
