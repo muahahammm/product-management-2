@@ -1,50 +1,53 @@
 extends ../../layouts/default.pug
+include ../../mixins/no-permission.pug
 
 block main
-    .container.mt-4
-        .row.g-4.category-detail-wrapper
-            //- Khối trái: hình ảnh
-            .col-md-5
-                .category-card.category-image-card
-                    if(product.thumbnail)
-                        img.category-image(
-                            src=product.thumbnail
-                            alt=product.title
-                        )
-                    else
-                        .no-image Không có hình ảnh
+    if(role.permissions.includes("product-category_view"))
+        .container.mt-4
+            .row.g-4.category-detail-wrapper
+                .col-md-5
+                    .category-card.category-image-card
+                        if(product.thumbnail)
+                            img.category-image(
+                                src=product.thumbnail
+                                alt=product.title
+                            )
+                        else
+                            .no-image Không có hình ảnh
 
-            //- Khối phải: thông tin
-            .col-md-7
-                .category-card.category-info-card
-                    if(product.title)
-                        h1.category-title #{product.title}
+                .col-md-7
+                    .category-card.category-info-card
+                        if(product.title)
+                            h1.category-title #{product.title}
 
-                    if(product.stock)
-                        .category-item
-                            span.label Còn lại:
-                            b #{product.stock}
+                        if(product.stock)
+                            .category-item
+                                span.label Còn lại:
+                                b #{product.stock}
 
-                    if(product.status)
-                        .category-item
-                            span.label Trạng thái:
-                            if (product.status === "active")
-                                span.badge.bg-success Hoạt động
-                            else
-                                span.badge.bg-danger Dừng hoạt động
+                        if(product.status)
+                            .category-item
+                                span.label Trạng thái:
+                                if (product.status === "active")
+                                    span.badge.bg-success Hoạt động
+                                else
+                                    span.badge.bg-danger Dừng hoạt động
 
-                    if(product.position)
-                        .category-item
-                            span.label Vị trí:
-                            b #{product.position}
+                        if(product.position)
+                            .category-item
+                                span.label Vị trí:
+                                b #{product.position}
 
-                    if(product.description)
-                        .category-description
-                            span.label Mô tả:
-                            .desc-content !{product.description}
+                        if(product.description)
+                            .category-description
+                                span.label Mô tả:
+                                .desc-content !{product.description}
 
-                    a.btn.btn-warning.mt-3(
-                        href=`${prefixAdmin}/products-category/edit/${product.id}`
-                    ) Chỉnh sửa
+                        if(role.permissions.includes("product-category_edit"))
+                            a.btn.btn-warning.mt-3(
+                                href=`${prefixAdmin}/products-category/edit/${product.id}`
+                            ) Chỉnh sửa
 
-    script(src="/admin/js/product-category.js")
+        script(src="/admin/js/product-category.js")
+    else 
+        +no-permission()

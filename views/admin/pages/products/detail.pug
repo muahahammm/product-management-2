@@ -1,57 +1,60 @@
 extends ../../layouts/default.pug
+include ../../mixins/no-permission.pug
 
 block main
-    .container.mt-4
-        .row.g-4.product-detail-wrapper
-            //- Khối bên trái: hình ảnh
-            .col-md-5
-                .product-card.product-image-card
-                    if(product.thumbnail)
-                        img.product-image(src=product.thumbnail alt=product.title)
-                    else
-                        .no-image Không có hình ảnh
+    if(role.permissions.includes("product_view"))
+        .container.mt-4
+            .row.g-4.product-detail-wrapper
+                .col-md-5
+                    .product-card.product-image-card
+                        if(product.thumbnail)
+                            img.product-image(src=product.thumbnail alt=product.title)
+                        else
+                            .no-image Không có hình ảnh
 
-            //- Khối bên phải: thông tin
-            .col-md-7
-                .product-card.product-info-card
-                    if(product.title)
-                        h1.product-title #{product.title}
+                .col-md-7
+                    .product-card.product-info-card
+                        if(product.title)
+                            h1.product-title #{product.title}
 
-                    if(product.price)
-                        div.product-price
-                            span Giá:
-                            b #{product.price}
+                        if(product.price)
+                            div.product-price
+                                span Giá:
+                                b #{product.price}
 
-                    if(product.discountPercentage)
-                        div.product-discount
-                            span Giảm giá:
-                            b #{product.discountPercentage}%
+                        if(product.discountPercentage)
+                            div.product-discount
+                                span Giảm giá:
+                                b #{product.discountPercentage}%
 
-                    if(product.stock)
-                        div.product-stock
-                            span Còn lại:
-                            b #{product.stock}
+                        if(product.stock)
+                            div.product-stock
+                                span Còn lại:
+                                b #{product.stock}
 
-                    if(product.status)
-                        div.product-status
-                            span Trạng thái:
-                            if (product.status === "active")
-                                span.badge.bg-success Hoạt động
-                            else
-                                span.badge.bg-danger Dừng hoạt động
+                        if(product.status)
+                            div.product-status
+                                span Trạng thái:
+                                if (product.status === "active")
+                                    span.badge.bg-success Hoạt động
+                                else
+                                    span.badge.bg-danger Dừng hoạt động
 
-                    if(product.position)
-                        div.product-position
-                            span Vị trí:
-                            b #{product.position}
+                        if(product.position)
+                            div.product-position
+                                span Vị trí:
+                                b #{product.position}
 
-                    if(product.description)
-                        div.product-description
-                            span Mô tả:
-                            .desc-content !{product.description}
+                        if(product.description)
+                            div.product-description
+                                span Mô tả:
+                                .desc-content !{product.description}
 
-                    a.btn.btn-warning.mt-3(
-                        href=`${prefixAdmin}/products/edit/${product.id}`
-                    ) Chỉnh sửa
+                        if(role.permissions.includes("product_edit"))
+                            a.btn.btn-warning.mt-3(
+                                href=`${prefixAdmin}/products/edit/${product.id}`
+                            ) Chỉnh sửa
 
-    script(src="/admin/js/product.js")
+        script(src="/admin/js/product.js")
+    else 
+        +no-permission()

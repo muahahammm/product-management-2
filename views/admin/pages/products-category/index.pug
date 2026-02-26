@@ -5,53 +5,59 @@ include ../../mixins/show-alert.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/sort-product-category.pug
 include ../../mixins/table-tree.pug
-
+include ../../mixins/no-permission.pug
 
 block main
-    +alert-success(5000)
+    if(role.permissions.includes("product-category_view"))
+        +alert-success(5000)
 
-    h1 Danh mục sản phẩm 
+        h1 Danh mục sản phẩm 
 
-    .card.mb-3
-        .card-header Bộ lọc và tìm kiếm 
-        .card-body 
-            .row
-                .col-6
-                    +filter-status(filterStatus)
-                .col-6 
-                    +search(keyword)
+        .card.mb-3
+            .card-header Bộ lọc và tìm kiếm 
+            .card-body 
+                .row
+                    .col-6
+                        +filter-status(filterStatus)
+                    .col-6 
+                        +search(keyword)
 
-    .card.mb-3 
-        .card-header Sắp xếp 
-        .card-body 
-            +sort-product-category()
+        if(role.permissions.includes("product-category_edit"))
+            .card.mb-3 
+                .card-header Sắp xếp 
+                .card-body 
+                    +sort-product-category()
 
-    .card.mb-3
-        .card-header Danh sách
-        .card-body
-            .row 
-                .col-8
-                    +form-change-multi(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
-                .col-4 
-                    a(href=`${prefixAdmin}/products-category/create` class="btn btn-outline-success") + Thêm mới
+        .card.mb-3
+            .card-header Danh sách
+            .card-body
+                .row 
+                    .col-8
+                        if(role.permissions.includes("product-category_edit"))
+                            +form-change-multi(`${prefixAdmin}/products-category/change-multi?_method=PATCH`)
+                    .col-4 
+                        if(role.permissions.includes("product-category_create"))
+                            a(href=`${prefixAdmin}/products-category/create` class="btn btn-outline-success") + Thêm mới
 
-    
-            table(class="table table-hover table-sm" checkbox-multi) 
-                thead 
-                    tr  
-                        th 
-                            input(type="checkbox" name="checkall")
-                        th STT 
-                        th Hình ảnh 
-                        th Tiêu đề 
-                        th Vị trí
-                        th Trạng thái 
-                        th Hành động 
-            
-                tbody
-                    +table-tree(records)
+        
+                table(class="table table-hover table-sm" checkbox-multi) 
+                    thead 
+                        tr  
+                            th 
+                                input(type="checkbox" name="checkall")
+                            th STT 
+                            th Hình ảnh 
+                            th Tiêu đề 
+                            th Vị trí
+                            th Trạng thái 
+                            th Hành động 
+                
+                    tbody
+                        +table-tree(records)
 
-    form(action="", method="POST" id="form-change-status" data-path=`${prefixAdmin}/products-category/change-status`) 
-    form(action="", method="POST" id="form-delete-item" data-path=`${prefixAdmin}/products-category/delete`)
+        form(action="", method="POST" id="form-change-status" data-path=`${prefixAdmin}/products-category/change-status`) 
+        form(action="", method="POST" id="form-delete-item" data-path=`${prefixAdmin}/products-category/delete`)
 
-    script(src="/admin/js/product-category.js")
+        script(src="/admin/js/product-category.js")
+    else 
+        +no-permission()

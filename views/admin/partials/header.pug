@@ -5,6 +5,7 @@ header.header
                 .inner-logo 
                     a(href="/admin/dashboard") ADMIN
 
-            .col-9
-                div(class="text-right")
-                    a(href=`${prefixAdmin}/auth/logout` class="btn btn-danger btn-sm") đăng xuất
+            .col-9.d-flex.justify-content-end.align-items-center
+                div(class="text-end")
+                    a.btn.btn-outline-danger.rounded-pill.px-3(href=`${prefixAdmin}/auth/logout`) 
+                        i.bi.bi-box-arrow-right.me-1 Đăng xuất
