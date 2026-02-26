@@ -6,9 +6,13 @@ const md5 = require("md5");
 
 // [GET] /admin/auth/login
 module.exports.login = async (req, res) => {
-    res.render("admin/pages/auth/login", {
-        pageTitle: "Đăng nhập"
-    });
+    if (req.cookies.token) {
+        res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
+    } else {
+        res.render("admin/pages/auth/login", {
+            pageTitle: "Đăng nhập"
+        });
+    }
 };
 
 
@@ -22,25 +26,25 @@ module.exports.loginPost = async (req, res) => {
         deleted: false
     });
     console.log(password);
-    
-    if(!user) {
+
+    if (!user) {
         req.flash("errol", "Email không tồn tại");
         res.redirect(req.headers.referer);
         return;
     }
 
-    if(md5(password) != user.password) {
+    if (md5(password) != user.password) {
         req.flash("errol", "Sai mật khẩu");
         res.redirect(req.headers.referer);
         return;
     }
 
-    if(user.status == "inactive") {
+    if (user.status == "inactive") {
         req.flash("errol", "Tài khoản đã bị khóa");
         res.redirect(req.headers.referer);
         return;
     }
-    
+
     res.cookie("token", user.token);
     res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
 };
