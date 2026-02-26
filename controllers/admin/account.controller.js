@@ -11,8 +11,8 @@ module.exports.index = async (req, res) => {
     };
 
     const records = await Account.find(find).select("-password -token");
-    
-    for(const record of records) {
+
+    for (const record of records) {
         const roles = await Role.findOne({
             _id: record.role_id,
             deleted: false
@@ -88,12 +88,25 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/accounts/edit/:id
 module.exports.editPatch = async (req, res) => {
-    if(req.body.password) {
-        req.body.password = md5(req.body.password);
+    id = req.params.id;
+    const emailExist = await Account.findOne({
+        _id: {$ne: id},
+        email: req.body.email,
+        deleted: false
+    });
+
+    if (emailExist) {
+        req.flash("errol", "Email đã tồn tại");
+    } else {
+        if (req.body.password) {
+            req.body.password = md5(req.body.password);
+        }
+        else {
+            delete req.body.password;
+        }
+
+        await Account.updateOne({ _id: id }, req.body);
+        req.flash("success", "Cập nhật tài khoản thành công");
     }
-    else {
-        delete req.body.password;
-    }
-    console.log(req.body);
-    res.send("OK");
+    res.redirect(req.headers.referer);
 };
