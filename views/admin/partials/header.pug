@@ -7,5 +7,7 @@ header.header
 
             .col-9.d-flex.justify-content-end.align-items-center
                 div(class="text-end")
+                    a.btn.btn-outline-success.rounded-pill.px-3(href=`${prefixAdmin}/my-account`)
+                        i.bi.bi-box-arrow-right.me-1 #{user.fullname}
                     a.btn.btn-outline-danger.rounded-pill.px-3(href=`${prefixAdmin}/auth/logout`) 
                         i.bi.bi-box-arrow-right.me-1 Đăng xuất

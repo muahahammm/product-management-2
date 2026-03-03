@@ -53,6 +53,7 @@ block main
                             th Vị trí
                             th Trạng thái 
                             th Người tạo 
+                            th Người cập nhật
                             th Hành động 
                 
                     tbody
@@ -100,6 +101,12 @@ block main
                                     span #{item.accountFullName}
                                     p
                                         +formatDateTime(item.createdBy.createdAt)
+                                td 
+                                    - const updatedBy = item.updatedBy.slice(-1)[0]
+                                    if(updatedBy)
+                                        span #{updatedBy.accountFullName}
+                                        p
+                                            +formatDateTime(updatedBy.updatedAt)
                                 td 
                                     if(role.permissions.includes("product_view"))
                                         a(href=`${prefixAdmin}/products/detail/${item.id}` class="btn btn-secondary btn-sm") Chi tiết 
