@@ -39,5 +39,8 @@ block main
                         else 
                             tr 
                                 td(colspan="4" class="text-center") Chưa có nhóm quyền nào được chọn
+
+        form(action="", method="POST" id="form-delete-item" data-path=`${prefixAdmin}/roles/delete`)
+        script(src="/admin/js/roles.js")
     else 
         +no-permission()

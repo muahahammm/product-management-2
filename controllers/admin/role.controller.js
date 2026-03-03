@@ -16,6 +16,14 @@ module.exports.index = async (req, res) => {
 };
 
 
+// [DELETE] /admin/roles/delete/:id
+module.exports.deleteItem = async (req, res) => {
+    const id = req.params.id;
+    await Role.updateOne({ _id: id }, { deleted: true });
+    res.redirect(req.headers.referer);
+};
+
+
 // [GET] /admin/roles/create
 module.exports.create = async (req, res) => {
     res.render("admin/pages/roles/create", {
