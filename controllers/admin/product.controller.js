@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model");
 const ProductCategory = require("../../models/product-category.model");
+const Account = require("../../models/account.model");
 
 const systemConfig = require("../../config/system");
 
@@ -58,6 +59,16 @@ module.exports.index = async (req, res) => {
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip);
 
+    for (const product of products) {
+        const user = await Account.findOne({
+            _id: product.createdBy.account_id
+        });
+
+        if(user) {
+            product.accountFullName = user.fullname;
+        }
+    }
+
     res.render("admin/pages/products/index", {
         pageTitle: "Danh sách sản phẩm",
         products: products,
@@ -93,7 +104,7 @@ module.exports.changeMulti = async (req, res) => {
             req.flash("success", "Cập nhật trạng thái thành công!");
             break;
         case "delete-all": 
-            await Product.updateMany({ _id: { $in : ids }}, { deleted:  "true" , deleteAt: new Date() });
+            await Product.updateMany({ _id: { $in : ids }}, { deleted: true , deletedBy:{ account_id : res.locals.user.id, deletedAt: new Date()}});
             req.flash("success", "Xóa sản phẩm thành công!");
             break;
         case "change-position": 
@@ -117,8 +128,9 @@ module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
 
     //await Product.deleteOne({ _id: id });
-    await Product.updateOne({ _id: id }, { deleted: true , deleteAt: new Date()});
+    await Product.updateOne({ _id: id }, { deleted: true , deletedBy:{ account_id : res.locals.user.id, deletedAt: new Date()}});
 
+    req.flash("success", "Đã xóa thành công sản phẩm");
     res.redirect(req.headers.referer || "/admin/products");
 };
 
@@ -151,6 +163,10 @@ module.exports.createPost = async (req, res) => {
     }
     else {
         req.body.position = parseInt(req.body.position);
+    }
+
+    req.body.createBy = {
+        account_id: res.locals.user.id
     }
     
     const product = new Product(req.body);

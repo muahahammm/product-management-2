@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("express-flash");
+const moment = require("moment");
 require("dotenv").config();
 
 const database = require("./config/database.js");
@@ -36,11 +37,12 @@ app.use('/tinymce', express.static(path.join(__dirname, "node_modules", "tinymce
 
 // App local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
 
 app.use(express.static(`${__dirname}/public`));
 
 app.get("/", (req, res) => {
-  res.send("Server is running 🚀");
+  res.send("Server is running");
 });
 
 //console.log("MONGO_URL = ", process.env.MONGO_URL);
