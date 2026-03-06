@@ -41,9 +41,9 @@ app.locals.moment = moment;
 
 app.use(express.static(`${__dirname}/public`));
 
-app.get("/", (req, res) => {
-  res.send("Server is running");
-});
+// app.get("/", (req, res) => {
+//   res.send("Server is running");
+// });
 
 //console.log("MONGO_URL = ", process.env.MONGO_URL);
 //routes

@@ -1,6 +1,6 @@
 const Product = require("../../models/product.model.js");
 
-// [get] /products
+// [GET] /products
 module.exports.index = async (req, res) => {
     const products = await Product.find({
         status: "active",
@@ -12,8 +12,6 @@ module.exports.index = async (req, res) => {
         return item;
     });
 
-    console.log(newProducts);
-
     res.render("client/pages/products/index.pug", {
         pageTitle: "Danh sách các sản phẩm",
         products: newProducts
@@ -21,7 +19,7 @@ module.exports.index = async (req, res) => {
 }
 
 
-// [get] /products
+// [GET] /products/detail
 module.exports.detail = async (req, res) => {
     try {
         const find = {
@@ -31,7 +29,6 @@ module.exports.detail = async (req, res) => {
         }
 
         const product = await Product.findOne(find);
-        console.log(product);
 
         res.render("client/pages/products/detail.pug", {
             pageTitle: product.title,
