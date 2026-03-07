@@ -98,7 +98,7 @@ block main
                                         else
                                             a(class="isinactive") Dừng hoạt động
                                 td 
-                                    span #{item.accountFullName}
+                                    span #{item.createdBy.accountFullName}
                                     p
                                         +formatDateTime(item.createdBy.createdAt)
                                 td 

@@ -66,7 +66,7 @@ module.exports.index = async (req, res) => {
         });
 
         if(user) {
-            product.accountFullName = user.fullname;
+            product.createdBy.accountFullName = user.fullname;
         }
         // Kết thúc lấy thông tin người tạo
 
@@ -199,7 +199,7 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
 
-    req.body.createBy = {
+    req.body.createdBy = {
         account_id: res.locals.user.id
     }
     

@@ -1,3 +1,5 @@
+include formatTime.pug
+
 mixin table-tree(records, level = 1) 
     each item in records
         - const prefix = Array(level + 1).join("-- ")
@@ -39,6 +41,16 @@ mixin table-tree(records, level = 1)
                         a(class="isactive") Hoạt động
                     else
                         a(class="isinactive") Dừng hoạt động
+            td 
+                span #{item.createdBy.accountFullName}
+                p
+                    +formatDateTime(item.createdBy.createdAt)
+            td 
+                - const updatedBy = item.updatedBy.slice(-1)[0]
+                if(updatedBy)
+                    span #{updatedBy.accountFullName}
+                    p
+                        +formatDateTime(updatedBy.updatedAt)
             td 
                 if(role.permissions.includes("product-category_view"))
                     a(href=`${prefixAdmin}/products-category/detail/${item.id}` class="btn btn-secondary btn-sm") Chi tiết 
