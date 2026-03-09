@@ -1,0 +1,40 @@
+/* SIDEBAR */
+.sider{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    background: linear-gradient(180deg,#6a5af9,#4a90e2);
+    padding-top: 20px;
+}
+
+/* MENU */
+.menu-list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-list li{
+    margin: 6px 12px;
+}
+
+.menu-link{
+    display:block;
+    padding:10px 15px;
+    color:rgba(255,255,255,0.7);
+    text-decoration:none;
+    white-space:nowrap;
+    border-radius:8px;
+}
+
+.menu-link:hover{
+    background:rgba(255,255,255,0.15);
+    color:#fff;
+}
+
+.menu-link.active{
+    background:rgba(255,255,255,0.25);
+    color:#fff;
+}

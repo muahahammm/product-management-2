@@ -32,7 +32,7 @@ module.exports.index = async (req, res) => {
 
     // Pagination
     const countProducts = await ProductCategory.countDocuments(find);
-    let opjectPagination = paginationHelpers(
+    let objectPagination = paginationHelpers(
         {
             limitItems: 4,
             currentPage: 1
@@ -42,7 +42,19 @@ module.exports.index = async (req, res) => {
     );
     // End pagination
 
-    const records = await ProductCategory.find(find);
+    // Sort
+    let sort = {};
+    if(req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue;
+    } else {
+        sort.position = "desc";
+    }
+    // End sort
+
+    const records = await ProductCategory.find(find)
+        // .sort(sort)
+        // .limit(objectPagination.limitItems)
+        // .skip(objectPagination.skip);
     const newRecord = createTreeHelpers.Tree(records);
 
     for (const record of records) {
