@@ -60,3 +60,66 @@ mixin table-tree(records, level = 1)
                     button(class="btn btn-danger btn-sm ml-1" button-delete data-id=item.id) Xóa
         if item.children && item.children.length > 0 
             +table-tree(item.children, level + 1)
+
+
+
+mixin table-tree-article(records, path, level = 1) 
+    each item in records
+        - const prefix = Array(level + 1).join("-- ")
+        tr 
+            td 
+                input(type="checkbox" name="id" value = item.id)
+            td #{item.index} 
+            td 
+                img(src=item.thumbnail alt=item.title width="100px" height="50px")
+            td #{prefix}#{item.title} 
+            td 
+                input(
+                    type="number"
+                    value=item.position 
+                    style="width: 50px"
+                    min="1"
+                    name="position"
+                )
+            td
+                if(role.permissions.includes("product-category_edit"))
+                    if(item.status == "active")
+                        a(
+                            href="javascript:;" 
+                            data-status=item.status
+                            data-id=item.id
+                            button-change-status 
+                            class="isactive"
+                        ) Hoạt động
+                    else
+                        a(
+                            href="javascript:;" 
+                            data-status=item.status
+                            data-id=item.id 
+                            button-change-status 
+                            class="isinactive"
+                        ) Dừng hoạt động
+                else 
+                    if(item.status == "active")
+                        a(class="isactive") Hoạt động
+                    else
+                        a(class="isinactive") Dừng hoạt động
+            td 
+                span #{item.createdBy.accountFullName}
+                p
+                    +formatDateTime(item.createdBy.createdAt)
+            td 
+                - const updatedBy = item.updatedBy.slice(-1)[0]
+                if(updatedBy)
+                    span #{updatedBy.accountFullName}
+                    p
+                        +formatDateTime(updatedBy.updatedAt)
+            td 
+                if(role.permissions.includes("product-category_view"))
+                    a(href=`${prefixAdmin}/${path}/detail/${item.id}` class="btn btn-secondary btn-sm") Chi tiết 
+                if(role.permissions.includes("product-category_edit")) 
+                    a(href=`${prefixAdmin}/${path}/edit/${item.id}` class="btn btn-warning btn-sm") Sửa 
+                if(role.permissions.includes("product-category_delete"))
+                    button(class="btn btn-danger btn-sm ml-1" button-delete data-id=item.id) Xóa
+        if item.children && item.children.length > 0 
+            +table-tree-article(item.children, path, level + 1)
