@@ -5,6 +5,7 @@ mongoose.plugin(slug);
 
 const articleSchema = new mongoose.Schema({
     title: String,
+    article_category_id: { type: String, default: ""},
     media: String,
     description: String,
     content: String,

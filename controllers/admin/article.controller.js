@@ -1,11 +1,13 @@
 const Article = require("../../models/article.model");
 const Account = require("../../models/account.model");
+const ArticleCategory = require("../../models/article-category.model");
 
 const systemConfig = require("../../config/system");
 
 const filterStatusHelpers = require("../../helpers/filterStatus");
 const searchHelpers = require("../../helpers/search");
 const paginationHelpers = require("../../helpers/pagination");
+const createTreeHelpers = require("../../helpers/createTree");
 
 
 // [GET] /admin/articles
@@ -173,8 +175,16 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/articles/create
 module.exports.create = async (req, res) => {
+    let find = {
+        deleted: false
+    };
+
+    const category = await ArticleCategory.find(find);
+    const newCategory = createTreeHelpers.Tree(category);
+
     res.render("admin/pages/articles/create", {
-        pageTitle: "Tạo mới bài viết"
+        pageTitle: "Tạo mới bài viết",
+        category: newCategory
     });
 }
 
@@ -198,7 +208,7 @@ module.exports.createPost = async (req, res) => {
 }
 
 
-// [GET] /admin/articles/edit/:id
+// [GET] /admin/articles/edit
 module.exports.edit = async (req, res) => {
     try {
         const find = {
@@ -207,13 +217,13 @@ module.exports.edit = async (req, res) => {
         };
 
         const article = await Article.findOne(find);
-        // const category = await ProductCategory.find({ deleted: false });
-        // const newCategory = createTreeHelpers.Tree(category);
+        const category = await ArticleCategory.find({ deleted: false });
+        const newCategory = createTreeHelpers.Tree(category);
 
         res.render("admin/pages/articles/edit", {
             pageTitle: "Chỉnh sửa bài viết",
             article: article,
-            // category: newCategory
+            category: newCategory
         });
     } catch (error) {
         res.redirect(`${systemConfig.prefixAdmin}/articles`);

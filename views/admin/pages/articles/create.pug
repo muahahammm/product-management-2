@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/no-permission.pug
+include ../../mixins/select-tree.pug
 
 block main
     h1(class="mb-4") Thêm mới bài viết
@@ -7,7 +8,14 @@ block main
     form(action=`${prefixAdmin}/articles/create` method="POST")
         div(class="form-group")
             label(for="title") Tiêu đề *
-            input(type="text" class="form-control" id="title" name="title" required) 
+            input(type="text" class="form-control" id="title" name="title" required)
+
+        div(class="form-group")
+            label(for="article_category_id") Danh mục cha 
+            select(name="article_category_id" id="article_category_id" class="form-control")
+                option(value="") --Chọn danh mục cha--
+                if(category)
+                    +select-tree(category) 
 
         div(class="form-group" upload-image)
             label(for="media") Ảnh *
