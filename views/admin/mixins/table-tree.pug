@@ -82,7 +82,7 @@ mixin table-tree-article(records, path, level = 1)
                     name="position"
                 )
             td
-                if(role.permissions.includes("product-category_edit"))
+                if(role.permissions.includes("article-category_edit"))
                     if(item.status == "active")
                         a(
                             href="javascript:;" 
@@ -115,11 +115,11 @@ mixin table-tree-article(records, path, level = 1)
                     p
                         +formatDateTime(updatedBy.updatedAt)
             td 
-                if(role.permissions.includes("product-category_view"))
+                if(role.permissions.includes("article_category_view"))
                     a(href=`${prefixAdmin}/${path}/detail/${item.id}` class="btn btn-secondary btn-sm") Chi tiết 
-                if(role.permissions.includes("product-category_edit")) 
+                if(role.permissions.includes("article_category_edit")) 
                     a(href=`${prefixAdmin}/${path}/edit/${item.id}` class="btn btn-warning btn-sm") Sửa 
-                if(role.permissions.includes("product-category_delete"))
+                if(role.permissions.includes("article_category_delete"))
                     button(class="btn btn-danger btn-sm ml-1" button-delete data-id=item.id) Xóa
         if item.children && item.children.length > 0 
             +table-tree-article(item.children, path, level + 1)

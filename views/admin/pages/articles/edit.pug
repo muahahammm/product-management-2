@@ -4,58 +4,61 @@ include ../../mixins/no-permission.pug
 include ../../mixins/select-tree.pug
 
 block main 
-    +alert-success(5000)
-    +alert-errol(5000)
+    if(role.permissions.includes("article_edit"))
+        +alert-success(5000)
+        +alert-errol(5000)
 
-    h1(class="mb-4") Chỉnh sửa bài viết  
-
-    form(
-        action=`${prefixAdmin}/articles/edit/${article.id}?_method=PATCH` 
-        id="form-edit-product" method="POST" enctype="multipart/form-data"
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề *
-            input(type="text" class="form-control" id="title" name="title" required value=article.title) 
-
-        div(class="form-group")
-            label(for="parent_id") Danh mục cha 
-            select(name="parent_id" id="parent_id" class="form-control")
-                option(value="") --Chọn danh mục cha--
-                if(category)
-                    +select-tree(category, 1, article.article_category_id)
-
-        div(class="form-group" upload-image)
-            label(for="media") Ảnh *
-            input(type="file" class="form-control-file" id="media" name="media" accept="image/*" upload-image-input)
-            div(class="image-preview-wrapper")
-                img(src=article.media upload-image-preview class="image-preview")
-                button(type="button" class="btn-close" aria-label="Close" button-close)
-
-        div(class="form-group")
-            label(for="desc") Mô tả ngắn *
-            textarea(class="form-control textarea-tinymce" id="desc" name="description" rows="4" value=article.description) #{article.description} 
-
-        div(class="form-group")
-            label(for="content") Nội dung *
-            textarea(class="form-control textarea-tinymce" id="content" name="content" rows="4" value=article.content) #{value=article.content}
-
-        div(class="form-group")
-            label(for="position") Vị trí 
-            input(type="number" class="form-control" id="position" name="position" placeholder="Tự động tăng" min="1" value=article.position)
+        h1(class="mb-4") Chỉnh sửa bài viết  
         
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio" class="form-check-input" id="statusActive" name="status" value="active" 
-                checked=(article.status == "active" ? true : false)
-            )
-            label(for="statusActive" class="form-check-label") Hoạt động
-        
-        div(class="form-group form-check form-check-inline")
-            input(
-                type="radio" class="form-check-input" id="statusInActive" name="status" value="inactive"
-                checked=(article.status == "inactive" ? true : false)
-            )
-            label(for="statusActive" class="form-check-label") Dừng hoạt động
+        form(
+            action=`${prefixAdmin}/articles/edit/${article.id}?_method=PATCH` 
+            id="form-edit-product" method="POST" enctype="multipart/form-data"
+        )
+            div(class="form-group")
+                label(for="title") Tiêu đề *
+                input(type="text" class="form-control" id="title" name="title" required value=article.title) 
 
-        div(class="form-group")
-            button(type="submit" class="btn btn-primary") Cập nhật
+            div(class="form-group")
+                label(for="parent_id") Danh mục cha 
+                select(name="parent_id" id="parent_id" class="form-control")
+                    option(value="") --Chọn danh mục cha--
+                    if(category)
+                        +select-tree(category, 1, article.article_category_id)
+
+            div(class="form-group" upload-image)
+                label(for="media") Ảnh *
+                input(type="file" class="form-control-file" id="media" name="media" accept="image/*" upload-image-input)
+                div(class="image-preview-wrapper")
+                    img(src=article.media upload-image-preview class="image-preview")
+                    button(type="button" class="btn-close" aria-label="Close" button-close)
+
+            div(class="form-group")
+                label(for="desc") Mô tả ngắn *
+                textarea(class="form-control textarea-tinymce" id="desc" name="description" rows="4" value=article.description) #{article.description} 
+
+            div(class="form-group")
+                label(for="content") Nội dung *
+                textarea(class="form-control textarea-tinymce" id="content" name="content" rows="4" value=article.content) #{value=article.content}
+
+            div(class="form-group")
+                label(for="position") Vị trí 
+                input(type="number" class="form-control" id="position" name="position" placeholder="Tự động tăng" min="1" value=article.position)
+            
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio" class="form-check-input" id="statusActive" name="status" value="active" 
+                    checked=(article.status == "active" ? true : false)
+                )
+                label(for="statusActive" class="form-check-label") Hoạt động
+            
+            div(class="form-group form-check form-check-inline")
+                input(
+                    type="radio" class="form-check-input" id="statusInActive" name="status" value="inactive"
+                    checked=(article.status == "inactive" ? true : false)
+                )
+                label(for="statusActive" class="form-check-label") Dừng hoạt động
+
+            div(class="form-group")
+                button(type="submit" class="btn btn-primary") Cập nhật
+    else 
+        +no-permission()

@@ -2,45 +2,49 @@ extends ../../layouts/default.pug
 include ../../mixins/no-permission.pug
 
 block main
-    .container.py-4
-        .row.justify-content-center
-            .col-lg-9
-                .card.shadow-sm.border-0
-                    if(article.media)
-                        img.card-img-top(
-                            src=article.media
-                            alt=article.title
-                            style="max-height:420px;object-fit:cover"
-                        )
-                    else
-                        .text-center.text-muted.py-5.bg-light Không có hình ảnh
+    if(role.permissions.includes("article_view"))
+        .container.py-4
+            .row.justify-content-center
+                .col-lg-9
+                    .card.shadow-sm.border-0
+                        if(article.media)
+                            img.card-img-top(
+                                src=article.media
+                                alt=article.title
+                                style="max-height:420px;object-fit:cover"
+                            )
+                        else
+                            .text-center.text-muted.py-5.bg-light Không có hình ảnh
 
-                    .card-body.p-4
+                        .card-body.p-4
 
-                        if(article.title)
-                            h1.fw-bold.mb-3 #{article.title}
+                            if(article.title)
+                                h1.fw-bold.mb-3 #{article.title}
 
-                        if(article.position)
-                            div.fw-bold.mb-3 Vị trí: #{article.position}
+                            if(article.position)
+                                div.fw-bold.mb-3 Vị trí: #{article.position}
 
-                        if(article.status)
-                            .mb-4
-                                span.fw-semibold.me-2 Trạng thái:
-                                if(article.status === "active")
-                                    span.badge.bg-success Hoạt động
-                                else
-                                    span.badge.bg-danger Dừng hoạt động
+                            if(article.status)
+                                .mb-4
+                                    span.fw-semibold.me-2 Trạng thái:
+                                    if(article.status === "active")
+                                        span.badge.bg-success Hoạt động
+                                    else
+                                        span.badge.bg-danger Dừng hoạt động
 
-                        if(article.description)
-                            .mb-4
-                                h5.fw-semibold.mb-2 Mô tả ngắn
-                                .p-3.bg-light.rounded !{article.description}
+                            if(article.description)
+                                .mb-4
+                                    h5.fw-semibold.mb-2 Mô tả ngắn
+                                    .p-3.bg-light.rounded !{article.description}
 
-                        if(article.description)
-                            .mb-4
-                                h4.fw-semibold.mb-3 Nội dung bài viết
-                                .lh-lg !{article.description}
+                            if(article.description)
+                                .mb-4
+                                    h4.fw-semibold.mb-3 Nội dung bài viết
+                                    .lh-lg !{article.description}
 
-                        a.btn.btn-warning.mt-3(
-                            href=`${prefixAdmin}/articles/edit/${article.id}`
-                        ) Chỉnh sửa
+                            if(role.permissions.includes("article_edit"))
+                                a.btn.btn-warning.mt-3(
+                                    href=`${prefixAdmin}/articles/edit/${article.id}`
+                                ) Chỉnh sửa
+    else 
+        +no-permission()
