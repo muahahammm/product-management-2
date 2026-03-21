@@ -235,8 +235,8 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
     const id = req.params.id;
 
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
+    if(!req.file){
+        req.body.media = `/uploads/${req.file.filename}`;
     }
 
     try {
