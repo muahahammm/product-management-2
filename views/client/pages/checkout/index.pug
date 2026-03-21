@@ -1,15 +1,15 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
-include ../../mixins/product-grid.pug
+include ../../mixins/show-alert.pug
 
-block main
+block main 
     +alert-success(5000)
     +alert-errol(5000)
 
-    .container.my-3 
-        .row
+    .container.my-3
+        .row 
             .col-12 
-                +box-head()
+                +box-head("Đặt hàng")
 
         .row 
             .col-12 
@@ -22,7 +22,6 @@ block main
                             th Giá 
                             th Số lượng
                             th Tổng tiền 
-                            th Hành động
                     tbody 
                         if(cartDetail.products.length > 0)
                             each item, index in cartDetail.products 
@@ -30,21 +29,30 @@ block main
                                     td #{index + 1}
                                     td 
                                         img(src=item.productInfo.thumbnail alt=item.productInfo.title width="80px")
-                                    td 
-                                        a(href=`products/detail/${item.productInfo.slug}`) #{item.productInfo.title}
+                                    td #{item.productInfo.title}
                                     td #{item.productInfo.priceNew}$
-                                    td 
-                                        input(type="number" name="quantity" value=item.quantity min="1" product-id=item.product_id style="width:60px")
+                                    td #{item.quantity}
                                     td !{item.totalPrice}$
-                                    td  
-                                        a(href=`/cart/delete/${item.product_id}` class="btn btn-danger") Xóa
                         else 
                             tr  
                                 td(colspan="7" class="text-center") Giỏ hàng trống
 
                 if(cartDetail.products.length > 0)
                     h3(class="text-right") Tổng đơn hàng: #{cartDetail.totalPrice}$
-                    div(class="text-right mt-3")
-                        a(href="/checkout" class="btn btn-success") THANH TOÁN
 
-    script(src="./js/cart.js") 
+        if(cartDetail.products.length > 0)
+            .row
+                .col-12 
+                    .card.p-4.my-4
+                        form(action="/checkout/order" method="POST")
+                            div(class="form-group") 
+                                label(for="fullname") Họ tên 
+                                input(type="text" class="form-control" id="fullname" name="fullname" required)
+                            div(class="form-group") 
+                                label(for="phone") Số điện thoại 
+                                input(type="text" class="form-control" id="phone" name="phone" required)
+                            div(class="form-group") 
+                                label(for="address") Địa chỉ 
+                                input(type="text" class="form-control" id="address" name="address" required)
+                            div(class="form-group") 
+                                button(type="submit" class="btn btn-success btn-block") ĐẶT HÀNG
