@@ -312,3 +312,58 @@
     cursor: pointer;
 }
 /* End show alert */
+
+
+
+ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+/* item cha */
+ul li {
+    position: relative;
+    margin: 4px 0;
+}
+
+/* menu con */
+ul ul {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    
+    min-width: 180px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 6px 0;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* hover xổ ra */
+li:hover > ul {
+    display: block;
+}
+
+/* link */
+ul li a {
+    display: block;
+    padding: 6px 10px;
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+ul li a:hover {
+    background: #f2f2f2;
+}
+
+/* menu con thụt nhẹ */
+ul ul li {
+    margin: 0;
+}
