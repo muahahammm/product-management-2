@@ -1,5 +1,6 @@
 const User = require("../../models/user.model");
 const ForgotPassword = require("../../models/forgot-password.model");
+const Cart = require("../../models/cart.model");
 
 const md5 = require("md5");
 
@@ -73,6 +74,12 @@ module.exports.loginPost = async (req, res) => {
         res.redirect(req.headers.referer);
         return;
     }
+
+    await Cart.updateOne({
+        _id: req.cookies.cartId
+    }, {
+        user_id: user.id
+    });
 
     res.cookie("tokenUser", user.tokenUser);
 
@@ -200,8 +207,6 @@ module.exports.info = async (req, res) => {
     const infoUser = await User.findOne({
         tokenUser: tokenUser
     }).select("-password");
-
-    console.log(infoUser);
 
     res.render("client/pages/user/info.pug", {
         pageTitle: "Thông tin tài khoản",
