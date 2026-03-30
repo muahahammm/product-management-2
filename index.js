@@ -41,13 +41,13 @@ app.locals.moment = moment;
 
 app.use(express.static(`${__dirname}/public`));
 
-// app.get("/", (req, res) => {
-//   res.send("Server is running");
-// });
-
-//console.log("MONGO_URL = ", process.env.MONGO_URL);
 //routes
 routeAdmin(app);
 route(app);
+app.use((req, res) => {
+    res.status(404).render("client/pages/errors/404", {
+        pageTitle: "404 not found"
+    });
+});
 
 app.listen(port);
