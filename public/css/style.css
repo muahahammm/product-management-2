@@ -367,3 +367,106 @@ ul li a:hover {
 ul ul li {
     margin: 0;
 }
+
+
+
+
+
+/* KHUNG CHAT */
+.chat {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    background: #ffffff; /* nền trắng */
+}
+
+/* BODY */
+.inner-body {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background: #ffffff;
+}
+
+/* CHUNG */
+.inner-incoming,
+.inner-outgoing {
+    margin-bottom: 10px;
+    max-width: 70%;
+}
+
+/* TIN NHẬN (xám) */
+.inner-incoming .inner-name {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 2px;
+}
+
+.inner-incoming .inner-content {
+    background: #f1f1f1; /* xám nhẹ */
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+/* TIN GỬI (tím đỏ nhẹ) */
+.inner-outgoing {
+    margin-left: auto;
+    text-align: right;
+}
+
+.inner-outgoing .inner-name {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 2px;
+}
+
+.inner-outgoing .inner-content {
+    background: linear-gradient(135deg, #a855f7, #ec4899); /* tím → hồng đỏ */
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+/* FOOT */
+.inner-foot {
+    border-top: 1px solid #eee;
+    padding: 10px;
+    background: #ffffff;
+}
+
+/* FORM */
+.inner-form {
+    display: flex;
+    gap: 10px;
+}
+
+/* INPUT */
+.inner-form input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+    background: #fafafa;
+}
+
+/* BUTTON */
+.inner-form button {
+    border: none;
+    background: linear-gradient(135deg, #a855f7, #ec4899); /* tím đỏ */
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.inner-form button:hover {
+    opacity: 0.85;
+}

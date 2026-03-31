@@ -7,6 +7,10 @@ const session = require("express-session");
 const flash = require("express-flash");
 const moment = require("moment");
 require("dotenv").config();
+// Socket.io
+const http = require('http');
+const { Server } = require("socket.io");
+// ENd socket.io
 
 const database = require("./config/database.js");
 const systemConfig = require("./config/system.js");
@@ -18,6 +22,12 @@ database.connect();
 
 const app = express();
 const port = process.env.PORT;
+
+// Socket.io
+const server = http.createServer(app);
+const io = new Server(server);
+global._io = io;
+// End socket.io
 
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,4 +60,4 @@ app.use((req, res) => {
     });
 });
 
-app.listen(port);
+server.listen(port);
