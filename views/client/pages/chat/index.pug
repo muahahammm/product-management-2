@@ -5,11 +5,11 @@ block main
     .container.my-3 
         .row
             .col-12 
-                +box-head("Chat")
+                +box-head("Đoạn chat")
 
         .row
             .col-12 
-                .chat 
+                .chat(my-id=user.id)
                     .inner-body 
                         each chat in chats 
                             div(class=(chat.user_id == user.id ? "inner-outgoing" : "inner-incoming"))
@@ -18,14 +18,6 @@ block main
                                 .inner-content 
                                     | #{chat.content}
 
-                        //- .inner-incoming
-                        //-     .inner-name Nam 
-                        //-     .inner-content 
-                        //-         | Oh my god 
-                        //- .inner-outgoing
-                        //-     .inner-name Minh
-                        //-     .inner-content 
-                        //-         | OK
                     .inner-foot 
                         form(class="inner-form" action="")
                             input(type="text" placeholder="Nhập nội dung" name="content")
