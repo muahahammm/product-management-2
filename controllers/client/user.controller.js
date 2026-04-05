@@ -222,3 +222,50 @@ module.exports.info = async (req, res) => {
         infoUser: infoUser
     });
 }
+
+
+// [GET] /user/info/edit
+module.exports.edit = async (req, res) => {
+    const tokenUser = req.cookies.tokenUser;
+    const infoUser = await User.findOne({
+        tokenUser: tokenUser
+    }).select("-password");
+
+    res.render("client/pages/user/edit.pug", {
+        pageTitle: "Chỉnh sửa thông tin tài khoản",
+        infoUser: infoUser
+    });
+}
+
+
+// [POSt] /user/info/edit
+module.exports.editPost = async (req, res) => {
+    const tokenUser = req.cookies.tokenUser;
+    const email = req.body.email;
+
+    const findEmail = await User.findOne({
+        email: email
+    });
+
+    try {
+        // Trường hợp đổi email
+        if(!findEmail) {
+            await User.updateOne({
+                tokenUser: tokenUser
+            }, req.body);
+        }
+
+        // Trường hợp giữ nguyên email
+        await User.updateOne({
+            tokenUser: tokenUser
+        }, {
+            fullname: req.body.fullname 
+        });
+
+        req.flash("success", "Cập nhật thông tin thành công");
+    } catch (error) {
+        req.flash("errol", "Cập nhật thông tin thất bại");
+    }
+
+    res.redirect(req.headers.referer);
+}
