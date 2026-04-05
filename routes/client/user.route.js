@@ -24,6 +24,6 @@ router.post('/password/reset', userValidate.resetPasswordPost, controller.resetP
 router.get('/info', authMiddleware.requireAuth, controller.info);
 
 router.get('/info/edit', authMiddleware.requireAuth, controller.edit);
-router.post('/info/edit', authMiddleware.requireAuth, controller.editPost);
+router.post('/info/edit', authMiddleware.requireAuth, userValidate.editPost, controller.editPost);
 
 module.exports = router;

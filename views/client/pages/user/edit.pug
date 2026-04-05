@@ -12,11 +12,23 @@ block main
                         form(action="/user/info/edit" method="POST")
                             .mb-3
                                 label.form-label Họ và tên
-                                input.form-control(type="text" id="fullname" name="fullname" placeholder="Nhập họ tên" required value=infoUser.fullname) 
+                                input.form-control(type="text" id="fullname" name="fullname" placeholder="Nhập họ tên" value=infoUser.fullname) 
 
                             .mb-3
                                 label.form-label Email
-                                input.form-control(type="email" id="email" name="email" placeholder="Nhập email" required value=infoUser.email)
+                                input.form-control(type="email" id="email" name="email" placeholder="Nhập email" value=infoUser.email)
+
+                            .mb-3
+                                label.form-label Mật khẩu hiện tại
+                                input.form-control(type="password" id="password" name="password")
+
+                            .mb-3
+                                label.form-label Mật khẩu mới
+                                input.form-control(type="password" id="newPassword" name="newPassword")
+                            
+                            .mb-3
+                                label.form-label Xác nhận mật khẩu mới
+                                input.form-control(type="password" id="confirmNewPassword" name="confirmNewPassword")
                            
                             button.btn.btn-primary.w-100(type="submit") Cập nhật
         
