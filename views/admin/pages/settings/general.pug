@@ -1,38 +1,43 @@
 extends ../../layouts/default.pug
 include ../../mixins/show-alert.pug 
+include ../../mixins/no-permission.pug
 
 block main 
-    h1 Cài đặt chung 
+    if(role.permissions.includes("setting_general_view"))
+        h1 Cài đặt chung 
 
-    +alert-success(5000)
-    +alert-errol(5000)
-     
-    form(action=`${prefixAdmin}/settings/general?_method=PATCH` method="POST" enctype="multipart/form-data")
-        div(class="form-group")
-            label(for="websiteName") Tên website
-            input(type="text" class="form-control" id="websiteName" name="websiteName" value=(settingGeneral?settingGeneral.websiteName:"")) 
+        +alert-success(5000)
+        +alert-errol(5000)
+        
+        form(action=`${prefixAdmin}/settings/general?_method=PATCH` method="POST" enctype="multipart/form-data")
+            div(class="form-group")
+                label(for="websiteName") Tên website
+                input(type="text" class="form-control" id="websiteName" name="websiteName" value=(settingGeneral?settingGeneral.websiteName:"")) 
 
-        div(class="form-group" upload-image)
-            label(for="logo") Logo 
-            input(type="file" class="form-control-file" id="logo" name="logo" accept="image/*" upload-image-input)
-            div(class="image-preview-wrapper")
-                img(src=value=(settingGeneral?settingGeneral.logo:"") upload-image-preview class="image-preview")
-                button(type="button" class="btn-close" aria-label="Close" button-close)
+            div(class="form-group" upload-image)
+                label(for="logo") Logo 
+                input(type="file" class="form-control-file" id="logo" name="logo" accept="image/*" upload-image-input)
+                div(class="image-preview-wrapper")
+                    img(src=value=(settingGeneral?settingGeneral.logo:"") upload-image-preview class="image-preview")
+                    button(type="button" class="btn-close" aria-label="Close" button-close)
 
-        div(class="form-group")
-            label(for="phone") Số điện thoại
-            input(type="number" class="form-control" id="phone" name="phone" value=(settingGeneral?settingGeneral.phone:"")) 
+            div(class="form-group")
+                label(for="phone") Số điện thoại
+                input(type="number" class="form-control" id="phone" name="phone" value=(settingGeneral?settingGeneral.phone:"")) 
 
-        div(class="form-group")
-            label(for="email") Email
-            input(type="email" class="form-control" id="email" name="email" value=(settingGeneral?settingGeneral.email:"")) 
+            div(class="form-group")
+                label(for="email") Email
+                input(type="email" class="form-control" id="email" name="email" value=(settingGeneral?settingGeneral.email:"")) 
 
-        div(class="form-group")
-            label(for="address") Địa chỉ
-            input(type="text" class="form-control" id="address" name="address" value=(settingGeneral?settingGeneral.address:"")) 
+            div(class="form-group")
+                label(for="address") Địa chỉ
+                input(type="text" class="form-control" id="address" name="address" value=(settingGeneral?settingGeneral.address:"")) 
 
-        div(class="form-group")
-            label(for="copyRight") Copy right 
-            input(type="text" class="form-control" id="copyRight" name="copyRight" value=(settingGeneral?settingGeneral.copyRight:""))
-        div(class="form-group")
-            button(type="submit" class="btn btn-primary") Cập nhật
+            div(class="form-group")
+                label(for="copyRight") Copy right 
+                input(type="text" class="form-control" id="copyRight" name="copyRight" value=(settingGeneral?settingGeneral.copyRight:""))
+            if(role.permissions.includes("setting_general_edit"))
+                div(class="form-group")
+                    button(type="submit" class="btn btn-primary") Cập nhật
+    else 
+        +no-permission()

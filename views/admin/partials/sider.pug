@@ -18,11 +18,15 @@
             if(role.permissions.includes("accounts_view"))
                 li 
                     a.menu-link(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
-            li 
-                a.menu-link(href=`${prefixAdmin}/users`) Tài khoản người dùng
-            li 
-                a.menu-link(href=`${prefixAdmin}/articles-category`) Danh mục bài viết
-            li 
-                a.menu-link(href=`${prefixAdmin}/articles`) Danh sách bài viết
-            li 
-                a.menu-link(href=`${prefixAdmin}/settings/general`) Cài đặt chung
+            if(role.permissions.includes("user_view"))
+                li 
+                    a.menu-link(href=`${prefixAdmin}/users`) Tài khoản người dùng
+            if(role.permissions.includes("article_category_view"))
+                li 
+                    a.menu-link(href=`${prefixAdmin}/articles-category`) Danh mục bài viết
+            if(role.permissions.includes("article_view"))
+                li 
+                    a.menu-link(href=`${prefixAdmin}/articles`) Danh sách bài viết
+            if(role.permissions.includes("setting_general_view"))
+                li 
+                    a.menu-link(href=`${prefixAdmin}/settings/general`) Cài đặt chung
