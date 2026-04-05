@@ -24,3 +24,16 @@ mixin sort-product-category()
                     option(value="title-desc") Tiêu đề z - a
         .form-group
             button(class="btn btn-danger mt2" sort-clear) clear
+
+
+mixin sort-user()
+    .d-flex.align-items-start
+        .form-group
+            div(sort)
+                select(class="form-control" name="sort-user" sort-select)
+                    option(value="email-asc") Email a - z  
+                    option(value="email-desc") Email z - a 
+                    option(value="fullname-asc") Tên a - z
+                    option(value="fullname-desc") Tên z - a
+        .form-group
+            button(class="btn btn-danger mt2" sort-clear) clear

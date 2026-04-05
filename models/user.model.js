@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean, 
         default: false 
     },
-    deleteAt: Date
+    deleteAt: Date,
+    updatedBy: [{
+        account_id: String,
+        updatedAt: Date
+    }]
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema, "users");
