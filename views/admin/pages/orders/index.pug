@@ -1,0 +1,47 @@
+extends ../../layouts/default.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
+include ../../mixins/show-alert.pug
+include ../../mixins/sort.pug
+include ../../mixins/no-permission.pug
+include ../../mixins/formatTime.pug
+
+block main
+    if(role.permissions.includes("order_view"))
+        +alert-success(5000)
+        +alert-errol(5000)
+
+        h1 Quản lý đơn hàng
+
+        .card.mb-3
+            .card-header Danh sách
+            .card-body
+                table(class="table table-hover table-sm" checkbox-multi) 
+                    thead 
+                        tr  
+                            th 
+                                input(type="checkbox" name="checkall")
+                            th STT 
+                            th Người đặt hàng
+                            th SĐT 
+                            th Địa chỉ 
+                            th Số lượng sản phẩm 
+                            th Hành động 
+                
+                    tbody
+                        each item, index in orders
+                            tr 
+                                td 
+                                    input(type="checkbox" name="id" value = item.id)
+                                td #{index + 1} 
+                                td #{item.userInfo.fullname} 
+                                td #{item.userInfo.phone} 
+                                td #{item.userInfo.address} 
+                                td #{item.products.length} 
+                                td 
+                                    if(role.permissions.includes("product_view"))
+                                        a(href=`${prefixAdmin}/orders/detail/${item.id}` class="btn btn-secondary btn-sm") Chi tiết 
+    else 
+        +no-permission()                                    

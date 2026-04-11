@@ -11,8 +11,8 @@ module.exports.index = async (req, res) => {
         _id: cartId
     });
 
-    if(cart.products.length > 0) {
-        for(const item of cart.products) {
+    if (cart.products.length > 0) {
+        for (const item of cart.products) {
             const productId = item.product_id;
             const productInfo = await Product.findOne({
                 _id: productId
@@ -44,13 +44,17 @@ module.exports.addPost = async (req, res) => {
     // Nếu chưa có cart tạo mới
     if (!cart) {
         cart = new Cart({
-            products: []
+            products: [{
+                product_id: productId,
+                quantity: quantity
+            }]
         });
 
         await cart.save();
-        cartId = cart.id;
+        res.cookie("cartId", cart.id);
 
-        res.cookie("cartId", cartId);
+        req.flash("success", "Đã thêm sản phẩm vào giỏ hàng");
+        return res.redirect(req.headers.referer);
     }
 
     // Kiểm tra sản phẩm đã có chưa
@@ -61,7 +65,7 @@ module.exports.addPost = async (req, res) => {
     if (existProductCart) {
         // update quantity
         await Cart.updateOne(
-            { _id: cartId, "products.product_id": productId},
+            { _id: cartId, "products.product_id": productId },
             { $inc: { "products.$.quantity": quantity } }
         );
     } else {
@@ -85,7 +89,7 @@ module.exports.delete = async (req, res) => {
     await Cart.updateOne({
         _id: cartId
     }, {
-        $pull: { products: { product_id: productId }}
+        $pull: { products: { product_id: productId } }
     });
     req.flash("success", "Xóa sản phẩm khỏi giỏ hàng thành công");
     res.redirect(req.headers.referer);
@@ -102,7 +106,7 @@ module.exports.update = async (req, res) => {
         _id: cartId,
         "products.product_id": productId
     }, {
-        $set: { 
+        $set: {
             "products.$.quantity": quantity
         }
     });

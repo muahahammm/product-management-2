@@ -27,6 +27,9 @@
             if(role.permissions.includes("article_view"))
                 li 
                     a.menu-link(href=`${prefixAdmin}/articles`) Danh sách bài viết
+            if(role.permissions.includes("order_view"))
+                li 
+                    a.menu-link(href=`${prefixAdmin}/orders`) Quản lý đơn hàng
             if(role.permissions.includes("setting_general_view"))
                 li 
                     a.menu-link(href=`${prefixAdmin}/settings/general`) Cài đặt chung

@@ -1,0 +1,77 @@
+extends ../../layouts/default.pug
+include ../../mixins/no-permission.pug
+
+block main
+    if(role.permissions.includes("order_view"))
+        .container.mt-4
+            .row.g-4.order-detail-wrapper
+                .col-md-5
+                    .product-card.order-user-card
+                        h3.mb-3 Thông tin khách hàng
+
+                        if(order.userInfo.fullname)
+                            div
+                                span Họ tên:
+                                b  #{order.userInfo.fullname}
+
+                        if(order.userInfo.phone)
+                            div
+                                span SĐT:
+                                b  #{order.userInfo.phone}
+
+                        if(order.userInfo.address)
+                            div
+                                span Địa chỉ:
+                                b  #{order.userInfo.address}
+
+                .col-md-7
+                    .product-card.order-info-card
+                        h3.mb-3 Danh sách sản phẩm
+                        - let totalPrice = 0
+
+                        if(order.products && order.products.length > 0)
+                            each item in order.products
+                                - const productInfo = products.find(p => p._id.toString() === item.product_id.toString())
+                                - const total = item.price * item.quantity * (1 - item.discountPercentage/100)
+                                - totalPrice += total
+                                .border.p-3.mb-3.rounded
+                                    div
+                                        span Tên sản phẩm:
+                                        b  #{productInfo.title}
+
+                                    div
+                                        span Ảnh:
+                                        img(src=productInfo.thumbnail, alt=productInfo.title)
+
+                                    div
+                                        span Mô tả sản phẩm:
+                                        b  #{productInfo.description}
+
+                                    div
+                                        span Giá:
+                                        b  #{item.price}$
+
+                                    div
+                                        span Giảm giá:
+                                        b  #{item.discountPercentage}%
+
+                                    div
+                                        span Số lượng:
+                                        b  #{item.quantity} sản phẩm
+
+                                    div
+                                        span Tổng tiền:
+                                        b  #{total}$
+
+                        else
+                            p Không có sản phẩm nào
+                        if(order.createdAt)
+                            hr
+                            div
+                                span Ngày đặt hàng:
+                                b  #{new Date(order.createdAt).toLocaleString()}
+                        div
+                            span Tổng giá tiền:
+                            b  #{totalPrice}$
+    else 
+        +no-permission()
