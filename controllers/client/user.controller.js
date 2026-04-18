@@ -29,6 +29,7 @@ module.exports.registerPost = async (req, res) => {
     }
 
     req.body.password = md5(req.body.password);
+    req.body.avatar = "/uploads/default-avatar.png";
 
     const user = new User(req.body);
     await user.save();
@@ -282,17 +283,20 @@ module.exports.editPost = async (req, res) => {
             );
         }
 
-        // ✅ Update info
+        if(!req.file){
+            req.body.avatar = `/uploads/${req.file.filename}`;
+        }
+
         await User.updateOne(
             { tokenUser },
             {
                 email,
-                fullname
+                fullname,
+                avatar: req.body.avatar
             }
         );
 
         req.flash("success", "Cập nhật thông tin thành công");
-
     } catch (error) {
         req.flash("error", "Cập nhật thất bại");
     }

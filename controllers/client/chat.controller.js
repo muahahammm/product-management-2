@@ -38,7 +38,7 @@ module.exports.chat = async (req, res) => {
             _id: chat.user_id,
         }).select("fullname");
 
-        chat.infoUser = infoUser;
+        chat.infoUser = infoUser || { fullname: "Unknown" };
     }
     // Kết thúc lấy data từ database
 
