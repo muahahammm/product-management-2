@@ -7,7 +7,7 @@ if(formSendData) {
         console.log(content);
         if(content) {
             socket.emit("CLIENT_SEND_MESSAGE", content);
-            content = "";
+            e.target.elements.content.value = "";
         }
     });
 }
